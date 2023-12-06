@@ -13,7 +13,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        $products = Product::query()->get();
+
+        return inertia('Products/Index', compact('products'));
     }
 
     /**
