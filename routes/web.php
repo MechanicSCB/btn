@@ -16,8 +16,9 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/test',[\Database\Factories\ProductFactory::class, 'definition']);
+// Route::get('/test',[\Database\Factories\ProductFactory::class, 'definition']);
 Route::get('/', [ProductController::class, 'index']);
+Route::resources(['products' => ProductController::class]);
 
 Route::middleware([
     'auth:sanctum',

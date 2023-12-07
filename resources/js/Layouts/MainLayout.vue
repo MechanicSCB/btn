@@ -1,7 +1,7 @@
 <template>
     <div class="flex">
         <!-- Left -->
-        <div class="min-h-screen w-[170px] bg-gray-700">
+        <div class="min-h-screen w-[170px] bg-[#374050]">
             <div class="text-white flex gap-4">
                 <div class="px-3 h-fit bg-white shrink-0 w-16 rounded-br-xl">
                     <img src="/img/logo.png" alt="">
@@ -35,3 +35,5 @@
         </div>
     </div>
 </template>
+
+<!-- status #50A9FC -->

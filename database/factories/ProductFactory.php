@@ -33,7 +33,7 @@ class ProductFactory extends Factory
         $fields = Arr::random(['цвет', 'размер', 'вес', 'код', 'объем', 'количество в упаковке'], rand(0, 5));
 
         foreach ($fields as $field) {
-            $props[$field] = $this->getPropValue($field);
+            $props[] = ['field' => $field, 'value' => $this->getPropValue($field)];
         }
 
         return json_encode($props, JSON_UNESCAPED_UNICODE);

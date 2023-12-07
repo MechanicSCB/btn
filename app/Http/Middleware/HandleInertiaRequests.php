@@ -2,8 +2,11 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Image;
+use App\Models\Node;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
+use Tightenco\Ziggy\Ziggy;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -36,8 +39,16 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        return array_merge(parent::share($request), [
-            //
-        ]);
+        $return = [
+            ...parent::share($request),
+            'flash' => [
+                'message' => fn() => $request->session()->get('message'),
+                'success' => fn() => $request->session()->get('success'),
+                'warning' => fn() => $request->session()->get('warning'),
+                'error' => fn() => $request->session()->get('error'),
+            ],
+        ];
+
+        return $return;
     }
 }

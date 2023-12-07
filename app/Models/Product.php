@@ -12,6 +12,8 @@ class Product extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $guarded = [];
+
     /**
      * Scope a query to only include available products.
      */
@@ -24,6 +26,7 @@ class Product extends Model
     {
         return Attribute::make(
             get: fn(?string $value) => json_decode($value, 1),
+            set: fn(mixed $value) => isJson($value) ? $value : json_encode($value, JSON_UNESCAPED_UNICODE),
         );
     }
 }
