@@ -4,35 +4,43 @@ import CloseCross from "@/Svg/CloseCross.vue";
 import {useForm} from "@inertiajs/vue3";
 import TrashIcon from "@/Svg/TrashIcon.vue";
 
+let props = defineProps({product: Object});
 let showCreateModal = inject('showCreateModal');
+let editedProductId = inject('editedProductId');
+
 let form = useForm({
-    'article':'',
-    'name':'',
-    'status':'available',
-    'datum': [],
+    'article': props.product?.article ?? '',
+    'name': props.product?.name ?? '',
+    'status': props.product?.status ?? 'available',
+    'datum': props.product?.data ?? [],
 });
 
 let submit = () => {
-    form.post(route('products.store'), {
-        preserveScroll: true,
-        onSuccess: () => {
-            form.reset();
-        },
-    });
+    if(props.product){
+        form.put(route('products.update', props.product), {
+            preserveScroll: true,
+        });
+    }else {
+        form.post(route('products.store'), {
+            preserveScroll: true,
+            onSuccess: () => form.reset(),
+        });
+    }
 };
 
 let showOptions = ref(false);
 </script>
 <template>
-    <!--<div class="fixed bg-[#374050]">-->
-    <div v-if="showCreateModal" @click="showCreateModal=false"
+    <div @click="showCreateModal=false;editedProductId=null"
          class="fixed z-10 left-0 top-0 w-full h-screen py-20 px-4 bg-[rgba(0,0,0,0.7)] flex items-center justify-center cursor-pointer"
     >
-        <div @click.stop="showOptions=false" class="relative w-full max-w-[750px] max-h-screen text-white bg-[#374050] py-5 px-3 cursor-default overflow-y-auto">
+        <div @click.stop="showOptions=false"
+             class="relative w-full max-w-[750px] max-h-screen text-white bg-[#374050] py-5 px-3 cursor-default overflow-y-auto">
             <!-- Close Modal List Button -->
-            <CloseCross @click="showCreateModal=false" class="m-1 w-8 absolute top-4 right-0 cursor-pointer text-gray-400"/>
+            <CloseCross @click="showCreateModal=false;editedProductId=null"
+                        class="m-1 w-8 absolute top-4 right-0 cursor-pointer text-gray-400"/>
 
-            <h2 class="text-xl font-semibold mb-3">Добавить продукт</h2>
+            <h2 class="text-xl font-semibold mb-3">{{ product ? 'Редактировать ' + product.name : 'Добавить продукт' }}</h2>
 
             <form @submit.prevent="submit" class="max-w-[550px] flex flex-col gap-2 pb-4">
                 <div>
@@ -53,17 +61,20 @@ let showOptions = ref(false);
                              class="h-7 flex items-center px-3 rounded-md bg-white border-b"
                              :class="{'rounded-b-none':showOptions}"
                         >
-                            {{ form.status==='available' ? 'Доступен' : 'Не доступен' }}
+                            {{ form.status === 'available' ? 'Доступен' : 'Не доступен' }}
                         </div>
-                        <div @click.stop="showOptions=false" v-if="showOptions" class="absolute bg-white w-full rounded-b-md cursor-pointer overflow-hidden">
+                        <div @click.stop="showOptions=false" v-if="showOptions"
+                             class="absolute bg-white w-full rounded-b-md cursor-pointer overflow-hidden">
                             <div @click="form.status='available'"
                                  :class="{'bg-[#50A9FC]':form.status==='available'}"
                                  class="py-1.5 px-3 hover:bg-gray-400"
-                            >Доступен</div>
+                            >Доступен
+                            </div>
                             <div @click="form.status='unavailable'"
                                  :class="{'bg-[#50A9FC]':form.status==='unavailable'}"
                                  class="py-1.5 px-3 hover:bg-gray-400"
-                            >Не доступен</div>
+                            >Не доступен
+                            </div>
                         </div>
                     </div>
                     <span class="text-red-600 text-xs">{{ form.errors.status }}</span>
@@ -79,17 +90,22 @@ let showOptions = ref(false);
                         </div>
                         <div>
                             <label class="text-xxs">Значение</label>
-                            <input class="w-full h-8 rounded-lg text-gray-700"  v-model="form.datum[itemId].value"/>
+                            <input class="w-full h-8 rounded-lg text-gray-700" v-model="form.datum[itemId].value"/>
                         </div>
-                        <TrashIcon @click="form.datum.splice(itemId, 1)" class="mt-8 w-4 h-4 fill-gray-400 hover:fill-red-500 cursor-pointer"/>
+                        <TrashIcon @click="form.datum.splice(itemId, 1)"
+                                   class="mt-8 w-4 h-4 fill-gray-400 hover:fill-red-500 cursor-pointer"/>
                     </div>
 
                     <!--  Add attribute  -->
-                    <div @click="form.datum.push({'field':'', 'value':''})" class="mt-2 text-xxs text-[#0FC5FF] hover:text-sky-300 cursor-pointer">+ Добавить атрибут</div>
+                    <div @click="form.datum.push({'field':'', 'value':''})"
+                         class="mt-2 text-xxs text-[#0FC5FF] hover:text-sky-300 cursor-pointer">+ Добавить атрибут
+                    </div>
                 </div>
 
 
-                <button class="mt-6 w-fit py-2 px-10 rounded-md text-white bg-[#0FC5FF] hover:bg-sky-600 text-xs cursor-pointer" :disabled="form.processing">
+                <button
+                    class="mt-6 w-fit py-2 px-10 rounded-md text-white bg-[#0FC5FF] hover:bg-sky-600 text-xs cursor-pointer"
+                    :disabled="form.processing">
                     Сохранить
                 </button>
             </form>

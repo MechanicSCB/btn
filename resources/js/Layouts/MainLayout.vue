@@ -1,5 +1,7 @@
 <template>
     <div class="flex">
+        <Flash/>
+
         <!-- Left -->
         <div class="min-h-screen w-[170px] bg-[#374050]">
             <div class="text-white flex gap-4">
@@ -35,5 +37,6 @@
         </div>
     </div>
 </template>
-
-<!-- status #50A9FC -->
+<script setup>
+import Flash from "@/Layouts/Partials/Flash.vue";
+</script>

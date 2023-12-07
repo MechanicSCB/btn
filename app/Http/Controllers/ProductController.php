@@ -15,7 +15,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::query()->get();
+        $products = Product::query()->get()->keyBy('id');
 
         return inertia('Products/Index', compact('products'));
     }
@@ -33,7 +33,6 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request): RedirectResponse
     {
-        // dd($request->all(), $request->validated());
         Product::query()->create($request->validated());
 
         return back()->with('success', "Продукт создан!");
@@ -58,16 +57,20 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateProductRequest $request, Product $product)
+    public function update(ProductRequest $request, Product $product): RedirectResponse
     {
-        //
+        $product->update($request->validated());
+
+        return back()->with('success', 'Продукт обновлён!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Product $product)
+    public function destroy(Product $product): RedirectResponse
     {
-        //
+        $product->delete();
+
+        return back()->with('success', 'Продукт удалён!');
     }
 }

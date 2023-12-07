@@ -202,7 +202,6 @@ if (!function_exists('flat_children')) {
     }
 }
 
-
 if (!function_exists('slug')) {
     function slug(string $str, $separator = '-'): string
     {
