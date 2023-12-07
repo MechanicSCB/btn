@@ -18,9 +18,8 @@ class ProductFactory extends Factory
      */
     public function definition(): array
     {
-        $this->getProps();
         return [
-            'name' => $this->faker->words(rand(1, 3), true),
+            'name' => $this->faker->company,
             'article' => $this->faker->unique()->bothify('?????#'),
             'status' => rand(0, 1) ? 'available' : 'unavailable',
             'data' => $this->getProps(),

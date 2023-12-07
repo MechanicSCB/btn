@@ -45,7 +45,11 @@ let showOptions = ref(false);
             <form @submit.prevent="submit" class="max-w-[550px] flex flex-col gap-2 pb-4">
                 <div>
                     <label class="text-xxs">Артикул</label>
-                    <input class="h-8 w-full rounded-lg text-gray-700" v-model="form.article" required/>
+                    <input v-model="form.article"
+                           class="h-8 w-full rounded-lg text-gray-700"
+                           :class="{' cursor-not-allowed': !$page.props.auth.user['is_admin']}"
+                           :disabled="! $page.props.auth.user['is_admin']"
+                           required/>
                     <div class="text-red-600 text-xxs h-0">{{ form.errors.article }}</div>
                 </div>
                 <div>
@@ -53,6 +57,7 @@ let showOptions = ref(false);
                     <input class="h-8 w-full rounded-lg text-gray-700" v-model="form.name" required/>
                     <div class="-mt-0.5 text-red-600 text-xxs h-0">{{ form.errors.name }}</div>
                 </div>
+
                 <!-- Status select -->
                 <div class="flex flex-col">
                     <label class="text-xxs">Статус</label>

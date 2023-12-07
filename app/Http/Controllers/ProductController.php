@@ -3,17 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductRequest;
-use App\Http\Requests\UpdateProductRequest;
 use App\Models\Product;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
+use Inertia\Response;
+use Inertia\ResponseFactory;
 
 class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): Response|ResponseFactory
     {
         $products = Product::query()->get()->keyBy('id');
 
@@ -59,6 +59,10 @@ class ProductController extends Controller
      */
     public function update(ProductRequest $request, Product $product): RedirectResponse
     {
+        if( !auth()->user()['isAdmin'] && $request->validated('article') !== $product['article']){
+            return back()->with('error', 'Редактировать артикул разрешено только администраторам!');
+        }
+
         $product->update($request->validated());
 
         return back()->with('success', 'Продукт обновлён!');

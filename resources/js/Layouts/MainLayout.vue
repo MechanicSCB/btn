@@ -1,3 +1,7 @@
+<script setup>
+import Flash from "@/Layouts/Partials/Flash.vue";
+import ProfileDropdown from "@/Layouts/Partials/ProfileDropdown.vue";
+</script>
 <template>
     <div class="flex">
         <Flash/>
@@ -24,10 +28,13 @@
         <!-- Right -->
         <div class="w-full">
             <!-- Header -->
-            <div class="px-6 bg-white text-red-600 flex items-center h-12">
-                <Link href="/" class="uppercase font-semibold">
+            <div class="px-6 w-full bg-white flex items-center h-12 justify-between">
+                <Link href="/" class="text-red-600 uppercase font-semibold">
                     Продукты
                 </Link>
+
+                <!-- User/Login -->
+                <ProfileDropdown class="text-gray-700">ere</ProfileDropdown>
             </div>
 
             <!-- Main -->
@@ -37,6 +44,3 @@
         </div>
     </div>
 </template>
-<script setup>
-import Flash from "@/Layouts/Partials/Flash.vue";
-</script>

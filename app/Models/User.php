@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -56,6 +57,27 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $appends = [
+        'is_admin',
         'profile_photo_url',
     ];
+
+    /**
+     * Get the comments for the blog post.
+     */
+    public function roles(): BelongsToMany
+    {
+        return $this->belongsToMany(Role::class);
+    }
+
+    // public function isAdmin():bool
+    // {
+    //     return $this->roles->pluck('name')->contains('admin');
+    // }
+
+    public function isAdmin(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => $this->roles->pluck('name')->contains('admin'),
+        );
+    }
 }
