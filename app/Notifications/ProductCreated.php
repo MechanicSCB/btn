@@ -2,6 +2,8 @@
 
 namespace App\Notifications;
 
+use App\Models\Product;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -14,7 +16,7 @@ class ProductCreated extends Notification implements ShouldQueue
     /**
      * Create a new notification instance.
      */
-    public function __construct()
+    public function __construct(protected Product $product, protected User $user)
     {
         //
     }
@@ -34,7 +36,7 @@ class ProductCreated extends Notification implements ShouldQueue
      */
     public function toMail(object $notifiable): MailMessage
     {
-        return (new MailMessage)->line('Продукт создан!');
+        return (new MailMessage)->line("Продукт {$this->product->name} создан! Пользователем {$this->user->name}");
     }
 
     /**

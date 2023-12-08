@@ -38,7 +38,7 @@ class ProductController extends Controller
     {
         $product = Product::query()->create($request->validated());
 
-        Notification::send($product, new ProductCreated());
+        Notification::send($product, new ProductCreated($product, auth()->user()));
 
         return back()->with('success', "Продукт создан!");
     }
