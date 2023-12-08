@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductRequest;
 use App\Models\Product;
+use App\Models\User;
+use App\Notifications\ProductCreated;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Notification;
 use Inertia\Response;
 use Inertia\ResponseFactory;
 
@@ -33,7 +36,9 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request): RedirectResponse
     {
-        Product::query()->create($request->validated());
+        $product = Product::query()->create($request->validated());
+
+        Notification::send($product, new ProductCreated());
 
         return back()->with('success', "Продукт создан!");
     }

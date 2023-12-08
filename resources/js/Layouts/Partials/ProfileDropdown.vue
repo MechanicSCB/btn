@@ -13,7 +13,7 @@ const logout = () => {
         <JetDropdown v-if="$page.props.auth.user" align="right" width="48">
             <template #trigger>
                 <button class="flex items-center text-sm border-2 border-transparent rounded-full focus:outline-none transition">
-                    <span class="hidden xl:flex">{{ $page.props.auth.user.name }}</span>
+                    <span class="flex">{{ $page.props.auth.user.name }}</span>
                 </button>
             </template>
 

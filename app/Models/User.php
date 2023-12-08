@@ -69,15 +69,10 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class);
     }
 
-    // public function isAdmin():bool
-    // {
-    //     return $this->roles->pluck('name')->contains('admin');
-    // }
-
     public function isAdmin(): Attribute
     {
         return Attribute::make(
-            get: fn() => $this->roles->pluck('name')->contains('admin'),
+            get: fn() => $this->roles->pluck('name')->contains(config('products.role')),
         );
     }
 }

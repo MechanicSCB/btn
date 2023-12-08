@@ -18,7 +18,7 @@ class UserSeeder extends Seeder
         $users = [
             [
                 'id' => 1,
-                'name' => 'admin',
+                'name' => 'Администратор',
                 'email' => "admin@example.com",
                 'password' => bcrypt("admin@example.com"),
                 'current_team_id' => 1,
@@ -61,7 +61,7 @@ class UserSeeder extends Seeder
         DB::table('teams')->upsert($teams, ['id']);
 
         $role = Role::query()->create(['name' => 'admin']);
-        $admin = User::query()->where('name', 'admin')->first();
+        $admin = User::query()->where('email', 'admin@example.com')->first();
         $admin->roles()->attach($role->id);
     }
 }

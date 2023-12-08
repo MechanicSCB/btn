@@ -1,7 +1,7 @@
 <script setup>
 import {inject, ref} from "vue";
 import CloseCross from "@/Svg/CloseCross.vue";
-import {useForm} from "@inertiajs/vue3";
+import {router, useForm} from "@inertiajs/vue3";
 import TrashIcon from "@/Svg/TrashIcon.vue";
 
 let props = defineProps({product: Object});
@@ -36,6 +36,7 @@ let showOptions = ref(false);
     >
         <div @click.stop="showOptions=false"
              class="relative w-full max-w-[750px] max-h-screen text-white bg-[#374050] py-5 px-3 cursor-default overflow-y-auto">
+
             <!-- Close Modal List Button -->
             <CloseCross @click="showCreateModal=false;editedProductId=null"
                         class="m-1 w-8 absolute top-4 right-0 cursor-pointer text-gray-400"/>
@@ -46,9 +47,9 @@ let showOptions = ref(false);
                 <div>
                     <label class="text-xxs">Артикул</label>
                     <input v-model="form.article"
-                           class="h-8 w-full rounded-lg text-gray-700"
-                           :class="{' cursor-not-allowed': !$page.props.auth.user['is_admin']}"
-                           :disabled="! $page.props.auth.user['is_admin']"
+                           class="h-8 w-full rounded-lg"
+                           :class="product && ! $page.props.auth.user['is_admin'] ? 'bg-gray-200 text-gray-400 cursor-not-allowed' :'text-gray-700' "
+                           :disabled="product && ! $page.props.auth.user['is_admin']"
                            required/>
                     <div class="text-red-600 text-xxs h-0">{{ form.errors.article }}</div>
                 </div>

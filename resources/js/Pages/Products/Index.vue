@@ -17,7 +17,7 @@ provide('editedProductId', editedProductId);
         <EditProductCard v-if="editedProductId!==null || showCreateModal" :product="products[editedProductId]"/>
         <ProductCard v-if="showedProductId!==null" :product="products[showedProductId]"/>
 
-        <div v-if="$page.props.auth.user" class="absolute z-10 top-16 right-2 py-2 px-10 rounded-md text-white bg-[#0FC5FF] hover:bg-sky-600 text-xs cursor-pointer"
+        <div v-if="$page.props.auth.user" class="absolute z-[5] top-16 right-2 py-2 px-10 rounded-md text-white bg-[#0FC5FF] hover:bg-sky-600 text-xs cursor-pointer"
              @click="showCreateModal=true"
         >Добавить</div>
 
